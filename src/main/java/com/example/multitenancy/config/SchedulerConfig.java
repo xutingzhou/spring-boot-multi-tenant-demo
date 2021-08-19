@@ -13,22 +13,20 @@ import java.util.Map;
 /**
  * @author Xutingzhou
  */
-//@Aspect
-//@Configuration
+@Aspect
+@Configuration
 public class SchedulerConfig {
 
-//    @Autowired
-//    private Map<String, DataSource> dataSourcesDvdRental;
-//
-//    @Around("@annotation(org.springframework.scheduling.annotation.Scheduled)")
-//    public void doIt(ProceedingJoinPoint pjp) throws Throwable {
-//        for (final Tenant tenant : dataSourcesDvdRental) {
-//            DvdRentalTenantContext.setTenantId(tenant);
-//
-//            pjp.proceed();
-//
-//            DvdRentalTenantContext.clear();
-//        }
-//    }
+    @Autowired
+    private Map<String, DataSource> dataSourcesDemo;
+
+    @Around("@annotation(org.springframework.scheduling.annotation.Scheduled)")
+    public void doIt(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        for ( String tenant : dataSourcesDemo.keySet()) {
+            MyTenantContext.setTenantId(tenant);
+            proceedingJoinPoint.proceed();
+            MyTenantContext.clear();
+        }
+    }
 
 }

@@ -16,12 +16,12 @@ spring:
 multitenancy:
     dataSources:
       - tenantId: tenant_1
-        url: jdbc:mysql://10.0.0.122:3306/a?useUnicode=true&character_set_server=utf8mb4&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+        url: jdbc:mysql://10.168.111.123:3306/a?useUnicode=true&character_set_server=utf8mb4&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
         username: root
         password: MyNewPass4!
         driverClassName: com.mysql.cj.jdbc.Driver
       - tenantId: tenant_2
-        url: jdbc:mysql://10.0.0.122:3306/b?useUnicode=true&character_set_server=utf8mb4&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+        url: jdbc:mysql://10.168.111.123:3306/b?useUnicode=true&character_set_server=utf8mb4&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
         username: root
         password: MyNewPass4!
         driverClassName: com.mysql.cj.jdbc.Driver
