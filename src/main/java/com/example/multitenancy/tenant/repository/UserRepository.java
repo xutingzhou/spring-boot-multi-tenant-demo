@@ -1,6 +1,6 @@
-package com.example.multitenancy.repository;
+package com.example.multitenancy.tenant.repository;
 
-import com.example.multitenancy.model.User;
+import com.example.multitenancy.tenant.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

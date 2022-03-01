@@ -1,7 +1,7 @@
 package com.example.multitenancy.controller;
 
-import com.example.multitenancy.model.User;
-import com.example.multitenancy.repository.UserRepository;
+import com.example.multitenancy.tenant.model.User;
+import com.example.multitenancy.tenant.repository.UserRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

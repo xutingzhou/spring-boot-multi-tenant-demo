@@ -1,6 +1,6 @@
-package com.example.multitenancy.config;
+package com.example.multitenancy.master.config;
 
-public class MyTenantContext {
+public class TenantContextHolder {
 
     private static final ThreadLocal<String> CONTEXT = new ThreadLocal<>();
 

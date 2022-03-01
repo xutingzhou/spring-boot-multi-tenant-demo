@@ -1,4 +1,4 @@
-package com.example.multitenancy.model;
+package com.example.multitenancy.tenant.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @Accessors(chain = true)
 @Entity
-@Table(name = "user")
+@Table(name = "USER")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

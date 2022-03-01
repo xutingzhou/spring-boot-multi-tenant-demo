@@ -1,10 +1,9 @@
-package com.example.multitenancy.config;
+package com.example.multitenancy.master.config;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
@@ -23,9 +22,9 @@ public class SchedulerConfig {
     @Around("@annotation(org.springframework.scheduling.annotation.Scheduled)")
     public void doIt(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         for ( String tenant : dataSourcesDemo.keySet()) {
-            MyTenantContext.setTenantId(tenant);
+            TenantContextHolder.setTenantId(tenant);
             proceedingJoinPoint.proceed();
-            MyTenantContext.clear();
+            TenantContextHolder.clear();
         }
     }
 
