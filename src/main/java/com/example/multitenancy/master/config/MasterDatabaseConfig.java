@@ -67,14 +67,7 @@ public class MasterDatabaseConfig {
         factoryBean.setPersistenceUnitName("master-database-persistence-unit");
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         factoryBean.setJpaVendorAdapter(vendorAdapter);
-
-        Map<String, Object> hibernateProps = new LinkedHashMap<>(jpaProperties.getProperties());
-        hibernateProps.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5InnoDBDialect");
-        hibernateProps.put(Environment.HBM2DDL_AUTO, "update");
-        hibernateProps.put(Environment.PHYSICAL_NAMING_STRATEGY, "org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy");
-        hibernateProps.put(Environment.IMPLICIT_NAMING_STRATEGY, "org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy");
-        hibernateProps.put(Environment.ENABLE_LAZY_LOAD_NO_TRANS, true);
-        factoryBean.setJpaPropertyMap(hibernateProps);
+        factoryBean.setJpaPropertyMap(hibernateProps(jpaProperties));
 
         return factoryBean;
     }
@@ -89,6 +82,16 @@ public class MasterDatabaseConfig {
     @Bean
     public PersistenceExceptionTranslationPostProcessor exceptionTranslationPostProcessor() {
         return new PersistenceExceptionTranslationPostProcessor();
+    }
+
+    public static Map<String, Object> hibernateProps(JpaProperties jpaProperties) {
+        Map<String, Object> hibernateProps = new LinkedHashMap<>(jpaProperties.getProperties());
+        hibernateProps.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5InnoDBDialect");
+        hibernateProps.put(Environment.HBM2DDL_AUTO, "update");
+        hibernateProps.put(Environment.PHYSICAL_NAMING_STRATEGY, "org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy");
+        hibernateProps.put(Environment.IMPLICIT_NAMING_STRATEGY, "org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy");
+        hibernateProps.put(Environment.ENABLE_LAZY_LOAD_NO_TRANS, true);
+        return hibernateProps;
     }
 
 }

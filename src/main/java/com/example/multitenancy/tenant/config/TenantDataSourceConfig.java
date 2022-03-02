@@ -1,5 +1,6 @@
 package com.example.multitenancy.tenant.config;
 
+import com.example.multitenancy.master.config.MasterDatabaseConfig;
 import com.example.multitenancy.master.repository.MasterTenantRepository;
 import com.example.multitenancy.tenant.model.User;
 import com.example.multitenancy.tenant.repository.UserRepository;
@@ -23,7 +24,6 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -90,13 +90,11 @@ public class TenantDataSourceConfig {
                 UserService.class.getPackage().getName());
         localBean.setJpaVendorAdapter(jpaVendorAdapter());
         localBean.setPersistenceUnitName("tenant-database-persistence-unit");
-        Map<String, Object> properties = new HashMap<>(jpaProperties.getProperties());
-        properties.put(Environment.MULTI_TENANT, MultiTenancyStrategy.SCHEMA);
-        properties.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, connectionProvider);
-        properties.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, tenantIdentifierResolver);
-        properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5InnoDBDialect");
-        properties.put(Environment.HBM2DDL_AUTO, "update");
-        localBean.setJpaPropertyMap(properties);
+        Map<String, Object> hibernateProps = MasterDatabaseConfig.hibernateProps(jpaProperties);
+        hibernateProps.put(Environment.MULTI_TENANT, MultiTenancyStrategy.SCHEMA);
+        hibernateProps.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, connectionProvider);
+        hibernateProps.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, tenantIdentifierResolver);
+        localBean.setJpaPropertyMap(hibernateProps);
         return localBean;
     }
 
