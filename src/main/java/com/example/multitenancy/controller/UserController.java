@@ -10,19 +10,19 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.transaction.Transactional;
 
 @RestController
-@RequestMapping(value = "/demo")
+@RequestMapping(value = "/user")
 @Transactional
-public class DemoController {
+public class UserController {
 
     private final UserRepository userRepository;
 
-    public DemoController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @GetMapping(value = "/{id}")
     public String getActor(@PathVariable("id") long id) {
-        return userRepository.findById(id).orElse(new User().setName("c")).getName();
+        return userRepository.findById(id).orElse(new User().setName("a")).getName();
     }
 
 }
