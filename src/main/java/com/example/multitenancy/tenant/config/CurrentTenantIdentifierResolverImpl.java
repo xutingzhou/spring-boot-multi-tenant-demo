@@ -2,9 +2,7 @@ package com.example.multitenancy.tenant.config;
 
 import com.example.multitenancy.master.config.TenantContextHolder;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
-import org.springframework.stereotype.Component;
 
-@Component
 public class CurrentTenantIdentifierResolverImpl implements CurrentTenantIdentifierResolver {
 
     @Override

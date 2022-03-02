@@ -3,7 +3,6 @@ package com.example.multitenancy.tenant.config;
 import com.example.multitenancy.master.model.MasterTenant;
 import com.example.multitenancy.master.repository.MasterTenantRepository;
 import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Configuration;
 

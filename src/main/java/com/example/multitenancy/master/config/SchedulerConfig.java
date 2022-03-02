@@ -16,16 +16,20 @@ import java.util.Map;
 @Configuration
 public class SchedulerConfig {
 
-    @Autowired
-    private Map<String, DataSource> dataSourcesDemo;
+    private final Map<String, DataSource> dataSourcesDemo;
+
+    public SchedulerConfig(Map<String, DataSource> dataSourcesDemo) {
+        this.dataSourcesDemo = dataSourcesDemo;
+    }
 
     @Around("@annotation(org.springframework.scheduling.annotation.Scheduled)")
-    public void doIt(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        for ( String tenant : dataSourcesDemo.keySet()) {
+    public boolean doIt(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        for (String tenant : dataSourcesDemo.keySet()) {
             TenantContextHolder.setTenantId(tenant);
             proceedingJoinPoint.proceed();
             TenantContextHolder.clear();
         }
+        return true;
     }
 
 }

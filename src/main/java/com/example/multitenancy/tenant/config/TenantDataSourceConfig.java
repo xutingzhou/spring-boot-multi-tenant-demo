@@ -10,6 +10,8 @@ import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +31,7 @@ import java.util.Map;
  */
 @Configuration
 @EnableTransactionManagement
+@EnableConfigurationProperties({JpaProperties.class})
 @ComponentScan(basePackages = {
         "com.example.multitenancy.tenant.model",
         "com.example.multitenancy.tenant.repository"
@@ -43,9 +46,11 @@ import java.util.Map;
 )
 public class TenantDataSourceConfig {
 
+    private final JpaProperties jpaProperties;
     private final MasterTenantRepository masterTenantRepository;
 
-    public TenantDataSourceConfig(MasterTenantRepository masterTenantRepository) {
+    public TenantDataSourceConfig(JpaProperties jpaProperties, MasterTenantRepository masterTenantRepository) {
+        this.jpaProperties = jpaProperties;
         this.masterTenantRepository = masterTenantRepository;
     }
 
@@ -85,13 +90,11 @@ public class TenantDataSourceConfig {
                 UserService.class.getPackage().getName());
         localBean.setJpaVendorAdapter(jpaVendorAdapter());
         localBean.setPersistenceUnitName("tenant-database-persistence-unit");
-        Map<String, Object> properties = new HashMap<>();
+        Map<String, Object> properties = new HashMap<>(jpaProperties.getProperties());
         properties.put(Environment.MULTI_TENANT, MultiTenancyStrategy.SCHEMA);
         properties.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, connectionProvider);
         properties.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, tenantIdentifierResolver);
-        properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
-        properties.put(Environment.SHOW_SQL, true);
-        properties.put(Environment.FORMAT_SQL, true);
+        properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5InnoDBDialect");
         properties.put(Environment.HBM2DDL_AUTO, "update");
         localBean.setJpaPropertyMap(properties);
         return localBean;

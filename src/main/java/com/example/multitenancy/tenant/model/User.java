@@ -6,7 +6,10 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * @author Xutingzhou
@@ -17,7 +20,6 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @Accessors(chain = true)
 @Entity
-@Table(name = "USER")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
