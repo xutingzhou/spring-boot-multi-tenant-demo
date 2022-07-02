@@ -1,28 +1,29 @@
 package com.example.multitenancy.controller;
 
-import com.example.multitenancy.tenant.model.User;
-import com.example.multitenancy.tenant.repository.UserRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.multitenancy.tenant.service.UserService;
+import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping()
 @Transactional
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "users/{id}")
     public String getActor(@PathVariable("id") long id) {
-        return userRepository.findById(id).orElse(new User().setName("a")).getName();
+        return userService.getUser(id).getName();
+    }
+
+    @PostMapping(value = "/users/{user}")
+    public void add(@PathVariable("user") String user) {
+        userService.addUser(user);
     }
 
 }
